@@ -745,9 +745,10 @@ function showTab(level, btn) {
   btn.classList.add('active');
 }
 
-function startMetroAt(bpm) {
-  setBpm(bpm);
-  if (!metroPlaying) toggleMetronome();
+function startMetroAt(newBpm) {
+  if (metroPlaying) toggleMetronome(); // stop first
+  setBpm(newBpm);
+  toggleMetronome(); // start fresh
 }
 
 // ========== METRONOME ==========
@@ -794,6 +795,8 @@ function tick() {
 }
 
 function toggleMetronome() {
+  // Always clear any existing interval first
+  if (metroInterval) { clearInterval(metroInterval); metroInterval = null; }
   metroPlaying = !metroPlaying;
   const btn = document.getElementById('playBtn');
   if (metroPlaying) {
